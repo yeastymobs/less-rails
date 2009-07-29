@@ -42,7 +42,7 @@ module Less
 			File.unlink(File.join(options[:css_location], relative_path + ".css")) if File.exist?(File.join(options[:css_location], relative_path + ".css"))
 
 			# Generate the new stylesheet
-			Less::Command.new({:source => stylesheet, :destination => File.join(options[:css_location], relative_path + ".css"), :compress => options[:compress]}).compile
+			Less::Command.new({:source => stylesheet, :destination => File.join(options[:css_location], relative_path + ".css"), :compress => options[:compress]}).run!
 		end
 
 		# Check if the specified stylesheet is in need of an update.
@@ -62,4 +62,12 @@ end
 
 # Add a before_filter that triggers the update_stylesheets method
 # before every call to a controller.
-ActionController::Base.before_filter { Less::Plugin.update_stylesheets }
+module ActionController
+  class Base
+    alias_method :less_old_process, :process
+    def process(*args)
+      Less::Plugin.update_stylesheets
+      less_old_process(*args)
+    end
+  end
+end
