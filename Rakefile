@@ -1,12 +1,19 @@
-require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
+require "rake"
 
-desc 'Generate documentation for the rails_less plugin.'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Rails-less'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+begin
+  require "jeweler"
+  Jeweler::Tasks.new do |gem|
+    gem.name = "less-rails"
+    gem.summary = "Using Less CSS Framework with Rails"
+    gem.email = "nicolas.merouze@gmail.com"
+    gem.homepage = "http://github.com/yeastymobs/less-rails"
+    gem.authors = ["Karst Hammer", "Nicolas Mérouze", "Mathieu Fosse", "Tim Harvey"]
+    gem.files = Dir["*", "lib/**/*"]
+    
+    gem.add_dependency("less", "~> 1.2.21")
+  end
+  
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end

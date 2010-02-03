@@ -1,1 +1,1 @@
-require 'less_plugin'
+require "less-rails"
